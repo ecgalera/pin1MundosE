@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    environment{
-        IMAGE = "egalera/node:18"
-    }
     stages {
         stage("clone") {
             steps {
@@ -12,7 +9,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    newApp = docker.build "$IMAGE:$BUILD_NUMBER"
+                    newApp = docker.build "egalera/node:$BUILD_NUMBER"
                 }
             }
         }
