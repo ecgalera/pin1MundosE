@@ -9,12 +9,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ecgalera/pin1MundosE.git'
             }
         }
-        stage("build") {
-            steps {
-                docker build 'docker run -d --name myNode ${IMAGE}'
-            }
-        }
-        stage("OK") {
+            stage("OK") {
             steps {
                 echo "Todo salio bien"
             }
