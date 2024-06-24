@@ -1,12 +1,19 @@
 pipeline {
     agent any
     environment{
-        IMAGE = "node:18"
+        IMAGE = "egalera/node:18"
     }
     stages {
         stage("clone") {
             steps {
                 git branch: 'main', url: 'https://github.com/ecgalera/pin1MundosE.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    newApp = docker.build "$IMAGEN:$BUILD_NUMBER"
+                }
             }
         }
             stage("OK") {
