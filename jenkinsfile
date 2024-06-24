@@ -1,35 +1,32 @@
 pipeline {
-    environment {
-        IMAGE = "ecgalera/myApp"
-        USUARIO = "USER_DOCKERHUB"
-        PATH = "/usr/local/bin:$PATH"
-    }
     agent any
+
+    environment {
+        // Define las credenciales de Docker Hub
+        registryCredentials = credentials('USER_DOCKERHUB')
+        dockerImage = 'egalera/node-app' // Nombre de tu imagen en Docker Hub
+        dockerTag = '1.0' // Etiqueta de la versión de la imagen
+    }
+
     stages {
-        stage("Clono el proyecto"){
-            steps {
-                git branch: "main", url: "https://github.com/ecgalera/pin1MundosE.git"
-            }
-        }
-        stage('Build Docker Image'){
+        stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t egalera/pruebajenkins:1 .'
+                    // Construye la imagen Docker
+                    docker.build("${dockerImage}:${dockerTag}", "-f Dockerfile .")
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    // Autentica con Docker Hub y sube la imagen
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredentials) {
+                        dockerImage.push("${dockerTag}")
                     }
                 }
             }
-        stage('Login to Docker Hub'){
-            steps {
-                    sh 'docker login -u ${USER_DOCKERHUB}'
         }
     }
-        stage('Push Docker Image') {
-        steps {
-            sh 'docker push egalera/pruebajenkins:1'
-        }
-    }
-
-
-    }
-
 }
