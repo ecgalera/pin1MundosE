@@ -2,6 +2,7 @@ pipeline {
     environment {
         IMAGE = "ecgalera/myApp"
         USUARIO = "USER_DOCKERHUB"
+        PATH = "/usr/local/bin:$PATH"
     }
     agent any
     stages {
