@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment{
-        IMAGE = node:18
+        IMAGE = "node:18"
     }
     stages {
         stage("clone") {
