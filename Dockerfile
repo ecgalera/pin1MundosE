@@ -1,22 +1,14 @@
-# Usar la imagen base oficial de Node.js 18
-FROM node:18
+# Utiliza la imagen base de Bitbucket de Atlassian
+FROM atlassian/bitbucket
 
-# Establecer el directorio de trabajo dentro del contenedor
-WORKDIR /app
+# Configura los puertos que quieres exponer
+EXPOSE 7990 7999
 
-# Copiar el package.json y el package-lock.json
-COPY package*.json ./
+# El directorio donde se montará el primer volumen dentro del contenedor
+VOLUME /var/atlassian/application-data/bitbucket
 
-# Instalar las dependencias
-RUN npm install
+# Agregar más volúmenes si es necesario
+VOLUME /var/atlassian/application-logs
 
-# Copiar el resto de los archivos de la aplicación
-COPY . .
-
-# Exponer el puerto en el que la aplicación se ejecutará (opcional)
-EXPOSE 8080
-
-VOLUME   [/var/run/docker.sock:/var/run/docker.sock]
-
-# Comando para ejecutar la aplicación
-CMD ["node", "index.js"]
+# Comando por defecto para iniciar Bitbucket (esto ya está configurado en la imagen base)
+CMD ["bitbucket"]
