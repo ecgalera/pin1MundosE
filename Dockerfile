@@ -14,7 +14,9 @@ RUN npm install
 COPY . .
 
 # Exponer el puerto en el que la aplicación se ejecutará (opcional)
-EXPOSE 3000
+EXPOSE 8080
+
+VOLUME   [/home/${USER_NAME}/jenkins_sandbox_home:/var/jenkins_home,  /var/run/docker.sock:/var/run/docker.sock]
 
 # Comando para ejecutar la aplicación
 CMD ["node", "index.js"]
